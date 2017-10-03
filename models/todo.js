@@ -14,7 +14,8 @@ var TodoSchema = new Schema({
 	todo : String,
 	date : { type: Date, default: Date.now },
 	stars : { type: Number, min:0, max:5},
-	Notes : { type: String, trim:true}
+	Notes : { type: String, trim:true},
+	status : {type: Number, min:0,max:2}
 });
 
 module.exports = mongoose.model('Todo', TodoSchema);

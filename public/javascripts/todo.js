@@ -63,7 +63,7 @@ $(document)
 						var markup = '<li class="ui-state-default"><div class="checkbox"><label><input type="checkbox" value="" />'
 								+ text + '</label></div></li>';
 						$('#sortable').append(markup);
-						$('.add-todo').val('');
+						$('#add-todo').val('');
 					}
 
 					// mark task as done

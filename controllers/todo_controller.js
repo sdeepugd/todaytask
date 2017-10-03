@@ -4,20 +4,20 @@
 var async = require('async');
 var Todo = require('../models/todo');
 var todoutils = require('../utils/todoUtils');
+var constants = require('../utils/constants');
 
 exports.index = function(req, res) {
-	console.log("inside index");
-	Todo.find({}, function(err, users) {
-		console.log(users);
+	Todo.find({status:0}, function(err, todos) {
+		console.log(todos);
 		res.render('index', {
 			title : 'TodayTask',
-			todos : users
+			todos : todos
 		});
 	});
 };
 
 exports.addtodo = function(req, res) {
 	console.log(req.body.todo);
-	todoutils.todoCreate(req.body.todo,1,"");
+	todoutils.todoCreate(req.body.todo,1,"",constants.TODO);
 	res.send("success");
 };
