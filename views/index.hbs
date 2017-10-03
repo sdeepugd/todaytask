@@ -1,2 +1,38 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="todobody">
+	<div class="col-md-6">
+		<div class="todolist todolist-todo">
+			<h1>Todos <div class="count-todos badge badge-pill todobadge"></div></h1>
+			
+			<input type="text" id="add-todo" class="form-control" placeholder="Add todo">
+			<button id="checkAll" class="btn btn-success">Mark all as done</button>
+			<hr>
+			<ul id="sortable" class="list-unstyled">
+				{{#each todos}}
+				<li class="ui-state-default">
+					<div class="checkbox">
+						<span class="glyphicons glyphicons-show-thumbnails-with-lines"></span> <label> <input type="checkbox" value="" />
+							<div class="todoitem">{{ todo }}</div>
+						</label>
+					</div>
+				</li> {{/each}}
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="col-md-4">
+		<div class="todolist">
+			<h1>Already Done</h1>
+			<ul id="done-items" class="list-unstyled">
+				<li>Some item
+					<button class="remove-item btn btn-default btn-xs pull-right">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+
+
+</div>
