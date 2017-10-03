@@ -4,6 +4,14 @@
 	margin-top: 30px;
 }
 
+.todoitem {
+	margin-left: 5px;
+}
+
+.todolist-todo {
+	background-color: #c5e4ff;
+}
+
 .todolist h1 {
 	margin: 0;
 	padding-bottom: 20px;
@@ -11,23 +19,37 @@
 }
 
 .form-control {
+	height: 40px;
 	border-radius: 0;
+	font-size: 20px;
+}
+
+.form-control:active, .form-control.is-active, .form-control:focus,
+	.form-control.is-focus {
+	border-color: #2554cc;
 }
 
 li.ui-state-default {
 	background: #fff;
-	border: none;
-	border-bottom: 1px solid #ddd;
+	border: 1px solid grey;
+	background-color: white;
+	font-size: 20px;
+	font-family: 'Lato', sans-serif;
+	padding: 4px;
+	padding-left: 15px;
+	border-radius: 5px;
+	margin: 4px;
+	border-radius: 5px;
 }
 
 li.ui-state-default:last-child {
-	border-bottom: none;
+	border-bottom: 1px solid grey;
 }
 
 .todo-footer {
 	background-color: #F4FCE8;
 	margin: 0 -20px -10px -20px;
-	padding: 10px 20px;
+	padding: 5px 10px;
 }
 
 #done-items li {

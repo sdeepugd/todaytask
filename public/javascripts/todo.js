@@ -1,93 +1,112 @@
 /**
  * http://usejsdoc.org/
  */
-$("#sortable").sortable();
-$("#sortable").disableSelection();
 
-countTodos();
+$(document)
+		.ready(
+				function() {
 
-// all done btn
-$("#checkAll").click(function() {
-	AllDone();
-});
+					$("#sortable").sortable();
+					$("#sortable").disableSelection();
 
-// create todo
-$('.add-todo').on('keypress', function(e) {
-	console.log("keypresseds");
-//	e.preventDefault
-	if (e.which == 13) {
-		if ($(this).val() != '') {
-			var todo = $(this).val();
-			console.log(todo);
-			createTodo(todo);
-			countTodos();
-		} else {
-			// some validation
-		}
-	}
-});
-// mark task as done
-$('.todolist').on('change', '#sortable li input[type="checkbox"]', function() {
-	if ($(this).prop('checked')) {
-		var doneItem = $(this).parent().parent().find('label').text();
-		$(this).parent().parent().parent().addClass('remove');
-		done(doneItem);
-		countTodos();
-	}
-});
+					countTodos();
 
-// delete done task from "already done"
-$('.todolist').on('click', '.remove-item', function() {
-	removeItem(this);
-});
+					// all done btn
+					$("#checkAll").click(function() {
+						AllDone();
+					});
 
-// count tasks
-function countTodos() {
-	var count = $("#sortable li").length;
-	$('.count-todos').html(count);
-}
+					// create todo
 
-// create task
-function createTodo(text) {
-	var markup = '<li class="ui-state-default"><div class="checkbox"><label><input type="checkbox" value="" />'
-			+ text + '</label></div></li>';
-	$('#sortable').append(markup);
-	$('.add-todo').val('');
-}
+					$('#add-todo').on('keypress', function(e) {
+						console.log("keypressed");
+						// e.preventDefault
+						if (e.which == 13) {
+							if ($(this).val() != '') {
+								var todo = $(this).val();
+								storeTodo(todo);
+								createTodo(todo);
+								countTodos();
+							} else {
+								// some validation
+							}
+						}
+					});
+					// mark task as done
+					$('.todolist').on(
+							'change',
+							'#sortable li input[type="checkbox"]',
+							function() {
+								if ($(this).prop('checked')) {
+									var doneItem = $(this).parent().parent()
+											.find('label').text();
+									$(this).parent().parent().parent()
+											.addClass('remove');
+									done(doneItem);
+									countTodos();
+								}
+							});
 
-// mark task as done
-function done(doneItem) {
-	var done = doneItem;
-	var markup = '<li>'
-			+ done
-			+ '<button class="btn btn-default btn-xs pull-right  remove-item"><span class="glyphicon glyphicon-remove"></span></button></li>';
-	$('#done-items').append(markup);
-	$('.remove').remove();
-}
+					// delete done task from "already done"
+					$('.todolist').on('click', '.remove-item', function() {
+						removeItem(this);
+					});
 
-// mark all tasks as done
-function AllDone() {
-	var myArray = [];
+					// count tasks
+					function countTodos() {
+						var count = $("#sortable li").length;
+						$('.count-todos').html(count);
+					}
 
-	$('#sortable li').each(function() {
-		myArray.push($(this).text());
-	});
+					// create task
+					function createTodo(text) {
+						var markup = '<li class="ui-state-default"><div class="checkbox"><label><input type="checkbox" value="" />'
+								+ text + '</label></div></li>';
+						$('#sortable').append(markup);
+						$('.add-todo').val('');
+					}
 
-	// add to done
-	for (i = 0; i < myArray.length; i++) {
-		$('#done-items')
-				.append(
-						'<li>'
-								+ myArray[i]
-								+ '<button class="btn btn-default btn-xs pull-right  remove-item"><span class="glyphicon glyphicon-remove"></span></button></li>');
-	}
+					// mark task as done
+					function done(doneItem) {
+						var done = doneItem;
+						var markup = '<li>'
+								+ done
+								+ '<button class="btn btn-default btn-xs pull-right  remove-item"><span class="glyphicon glyphicon-remove"></span></button></li>';
+						$('#done-items').append(markup);
+						$('.remove').remove();
+					}
 
-	// myArray
-	$('#sortable li').remove();
-	countTodos();
-}
+					// mark all tasks as done
+					function AllDone() {
+						var myArray = [];
 
-// remove done task from list
-function removeItem(element) {
-	$(element).parent().remove();
-}
+						$('#sortable li').each(function() {
+							myArray.push($(this).text());
+						});
+
+						// add to done
+						for (i = 0; i < myArray.length; i++) {
+							$('#done-items')
+									.append(
+											'<li>'
+													+ myArray[i]
+													+ '<button class="btn btn-default btn-xs pull-right  remove-item"><span class="glyphicon glyphicon-remove"></span></button></li>');
+						}
+
+						// myArray
+						$('#sortable li').remove();
+						countTodos();
+					}
+
+					// remove done task from list
+					function removeItem(element) {
+						$(element).parent().remove();
+					}
+					function storeTodo(todo) {
+						$.post("/addtodo", {
+							todo : todo
+						}, function(data, status) {
+							console.log(data);
+						});
+					}
+				});
