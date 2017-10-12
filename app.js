@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
+var login = require('./routes/login');
 
 var app = express();
 
@@ -23,7 +24,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.set('port', 8080);
+app.set('port', 8090);
 app.listen(app.get('port'));
 
 // uncomment after placing your favicon in /public
@@ -34,7 +35,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+//Setting filter
+app.use('/',function(req, res, next) {
+	console.log("inside filter");
+	if(req.cookie == ""){
+		res.status(403);
+		res.render(error);
+	} else {
+		next();
+	}
+});
+
+app.use('/',login);
+app.use('/home', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -48,7 +61,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error');

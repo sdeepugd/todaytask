@@ -1,38 +1,91 @@
-<div class="todobody">
-	<div class="col-md-6">
-		<div class="todolist todolist-todo">
-			<h1>Todos <div class="count-todos badge badge-pill todobadge"></div></h1>
-			
-			<input type="text" id="add-todo" class="form-control" placeholder="Add todo">
-			<button id="checkAll" class="btn btn-success">Mark all as done</button>
-			<hr>
-			<ul id="sortable" class="list-unstyled">
-				{{#each todos}}
-				<li class="ui-state-default" id={{_id}}>
-					<div class="checkbox">
-						<span class="glyphicons glyphicons-show-thumbnails-with-lines"></span> <label> <input type="checkbox" value="" />
-							<div class="todoitem">{{ todo }}</div>
-						</label>
+
+<div class='container-fluid' class="clearfix">
+	<div class="row">
+		<div class="col-sm-2 sidebar-nav " id="sidebar-wrapper">
+			<ul class="nav nav-list">
+
+				<br />
+				<br />
+				<div class="navbar-header">
+					<ul class="nav navbar-nav navbar-left">
+						<li>
+							<div id="navbar" class="navbar-collapse collapse">
+								<a href="#" data-toggle="modal" data-target="#create-modal">New Folder</a>
+							</div>
+						</li>
+					</ul>
+					<div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+						<div class="modal-dialog">
+							<div class="folderCreateModal-container">
+								<h1>Create a New Folder</h1>
+								<br>
+								<form>
+									<input type="text" name="newFoldr" placeholder="folder name"> <input type="submit" name="create" class="folderCreateModal-submit" value="Create">
+								</form>
+							</div>
+						</div>
 					</div>
-				</li> {{/each}}
+				</div>
+				
+				
+				<br />
+				<br />
+				<li id="today"><a href="/home">/</a></li>
+				<br />
+				<hr>
+				<li id="all"><a href="/home">All Todos</a></li>
+				<hr>
+				<li id="today"><a href="/home/today">Today</a></li>
+				<li id="yesterday"><a href="/home/yesterday">Yesterday</a></li>
+				<li id="lastweek"><a href="/home/lastweek">Last Week</a></li>
 			</ul>
 		</div>
-	</div>
+		<div class="todobody">
+			<div class="col-md-6">
+				<div class="todolist todolist-todo">
+					<h1>
+						Todos
+						<div class="count-todos badge badge-pill todobadge"></div>
+					</h1>
 
 
-	<div class="col-md-4">
-		<div class="todolist">
-			<h1>Already Done</h1>
-			<ul id="done-items" class="list-unstyled">
-				<li>Some item
-					<button class="remove-item btn btn-default btn-xs pull-right">
-						<span class="glyphicon glyphicon-remove"></span>
-					</button>
-				</li>
+					<!-- 					<div class="text-center"> -->
+					<!-- 						<a class="btn btn-success btn-green" href="#reviews-anchor" id="open-review-box">+</a> -->
+					<!-- 					</div> -->
 
-			</ul>
+					<input type="text" id="add-todo" class="form-control" placeholder="Add your Todo">
+					<hr>
+					<ul id="sortable" class="list-unstyled">
+						{{#if data.todo_todo.length}} {{#each data.todo_todo}}
+						<li class="ui-state-default list-group-item-action list-group-item " id={{_id}}>
+							<div class="checkbox">
+								<span class="glyphicons glyphicons-show-thumbnails-with-lines"></span> <label> <input type="checkbox" value="" autocomplete="off" />
+									<div class="todoitem">{{ todo }}</div>
+								</label>
+								<div class="stars starrr" data-rating={{stars}}></div>
+							</div>
+						</li> {{/each}} {{/if}}
+					</ul>
+					<button id="checkAll" class="btn btn-success">Mark all as done</button>
+				</div>
+			</div>
+
+
+			<div class="col-md-4">
+				<div class="todolist">
+					<h1>Already Done</h1>
+					<ul id="done-items" class="list-unstyled">
+						{{#if data.todo_done.length}} {{#each data.todo_done}}
+						<li id={{_id}}>{{ todo }}
+							<button class="remove-item btn btn-default btn-xs pull-right">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+						</li> {{/each}} {{/if}}
+					</ul>
+				</div>
+			</div>
+
+
 		</div>
 	</div>
-
-
 </div>

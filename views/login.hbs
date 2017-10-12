@@ -18,7 +18,7 @@
 		});
 		FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
-				console.log(response);
+				setCookie("auth", response.authResponse.userID, 2);
 			    function pageRedirect() {
 			        window.location.replace("./home");
 			    }      
