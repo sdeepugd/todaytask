@@ -4,12 +4,13 @@
 var Todo = require('../models/todo')
 var jsonutils = require('./jsonutils')
 
-exports.todoCreate = function(todo, stars, Notes, status) {
+exports.todoCreate = function(todo, stars, Notes, status, userid) {
 	tododetail = {
 		todo : todo,
 		stars : stars,
 		Notes : Notes,
-		status : status
+		status : status,
+		userid : userid
 	}
 
 	var todo = new Todo(tododetail);

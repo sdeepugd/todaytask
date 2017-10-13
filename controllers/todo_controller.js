@@ -5,6 +5,7 @@ var async = require('async');
 var moment = require('moment');
 var Todo = require('../models/todo');
 var todoutils = require('../utils/todoUtils');
+var commonutils = require('../utils/commonutils');
 var constants = require('../utils/constants');
 
 var todoobj = {
@@ -14,11 +15,12 @@ var todoobj = {
 	rendertodo : function(req, res) {
 		var startDate = this.startDate;
 		var endDate = this.endDate;
-		
+		var userid = commonutils.getcookies(req)["auth"];
 		async.parallel({
 			todo_todo : function(callback) {
 				Todo.find({
 					status : 0,
+					userid : userid,
 					date : {
 						$gte : startDate,
 						$lt : endDate
@@ -30,6 +32,7 @@ var todoobj = {
 			todo_done : function(callback) {
 				Todo.find({
 					status : 1,
+					userid : userid,
 					date : {
 						$gte : startDate,
 						$lt : endDate
@@ -48,7 +51,7 @@ var todoobj = {
 }
 
 exports.AllTodo = function(req, res) {
-	console.log(req.headers.cookie);
+	commonutils.getcookies(req)
 	todoobj.startDate = moment.utc("0001-01-01");
 	todoobj.endDate = moment(moment().startOf('day')).add(1, 'days')
 	todoobj.rendertodo(req, res);
@@ -72,8 +75,8 @@ exports.LastWeekTodo = function(req, res) {
 	todoobj.rendertodo(req, res);
 }
 exports.addtodo = function(req, res) {
-	console.log(req.body.todo);
-	result = todoutils.todoCreate(req.body.todo, 1, "", constants.TODO);
+	var userid = commonutils.getcookies(req)["auth"];
+	result = todoutils.todoCreate(req.body.todo, 1, "", constants.TODO,userid);
 	res.contentType('application/json');
 	res.json(result);
 };
